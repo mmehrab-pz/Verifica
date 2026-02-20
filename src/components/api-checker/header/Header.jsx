@@ -4,6 +4,7 @@ import { LangToggle } from "./LangToggle";
 import { SaveReq } from "./SaveReq";
 import { UploadReq } from "./UploadReq";
 import MoreInfo from "./MoreInfo";
+import Mehrab from "./Mehrab";
 
 
 export default function Header() {
@@ -16,6 +17,7 @@ export default function Header() {
         <UploadReq />
         <SaveReq />
         <MoreInfo />
+        <Mehrab />
         <ModeToggle />
      </div>
     </header>
