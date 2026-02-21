@@ -9,13 +9,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import React from "react";
 import Parameters from "./parameters/Parameters";
+import Headers from "./Headers/Headers.";
 
 export default function Dependency() {
   return (
     <Tabs defaultValue="Parameters" className="w-full px-8 py-4 border-b border-border">
       <TabsList>
         <TabsTrigger value="Parameters">Parameters</TabsTrigger>
-        <TabsTrigger value="Heads">Heads</TabsTrigger>
+        <TabsTrigger value="Headers">Headers</TabsTrigger>
         <TabsTrigger value="Body">Body</TabsTrigger>
       </TabsList>
       <TabsContent value="Parameters">
@@ -23,18 +24,9 @@ export default function Dependency() {
           <Parameters />
         </Card>
       </TabsContent>
-      <TabsContent value="Heads">
-        <Card>
-          <CardHeader>
-            <CardTitle>Analytics</CardTitle>
-            <CardDescription>
-              Track performance and user engagement metrics. Monitor trends and
-              identify growth opportunities.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="text-muted-foreground text-sm">
-            Page views are up 25% compared to last month.
-          </CardContent>
+      <TabsContent value="Headers">
+        <Card className={'p-4 gap-0'}>
+          <Headers />
         </Card>
       </TabsContent>
       <TabsContent value="Body">
