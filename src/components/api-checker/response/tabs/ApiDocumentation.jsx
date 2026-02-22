@@ -12,7 +12,7 @@ import {
 import ResponseBody from "./ResponseBody";
 
 export default function ApiDocumentation() {
-  const { url, method, statusCode, data } = useApiStore();
+  const { url, method, statusCode, data , responseTime } = useApiStore();
   console.log(data);
 
   let statusBadgeClass = "";
@@ -45,7 +45,15 @@ export default function ApiDocumentation() {
     <>
       {url ? (
         <>
-          <h2 className="capitalize border-b pb-2">Api Documentation</h2>
+          <div className="border-b pb-2 flex justify-between items-center">
+            <h2 className="capitalize">Api Documentation</h2>
+            <div>
+              <p className="capitalize text-muted-foreground text-sm">
+                duration:&nbsp;
+                {responseTime}ms
+              </p>
+            </div>
+          </div>
           <div className="flex gap-2.5">
             {url && <p>{url}</p>}
             {method && (
