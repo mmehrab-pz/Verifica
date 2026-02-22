@@ -131,7 +131,7 @@ export default function ApiDocumentation() {
           </div>
         </>
       ) : (
-        <p>
+        <p className="text-[14px] capitalize">
           After submitting the request, the documentation is automatically
           created.
         </p>
