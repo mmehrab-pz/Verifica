@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import ApiDocumentation from './ApiDocumentation';
+import ResponseBody from './ResponseBody';
 
 export default function ResTabs() {
   return (
@@ -29,7 +30,7 @@ export default function ResTabs() {
           </TabsContent>
           <TabsContent value="Response">
             <Card className={'p-4'}>
-sdf
+              <ResponseBody />
             </Card>
           </TabsContent>
         </Tabs>
