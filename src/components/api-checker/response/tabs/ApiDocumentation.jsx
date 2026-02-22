@@ -89,14 +89,16 @@ export default function ApiDocumentation() {
             </Table>
           </div>
           <div>
-            <h2 className="capitalize">response</h2>
-            <div className="mt-2.5 flex gap-2">
-              <h6 className="capitalize text-[14px]">status code:</h6>
-              {statusCode !== null && (
-                <Badge className={statusBadgeClass}>{statusCode}</Badge>
-              )}
+            <div className="flex justify-between items-center">
+              <h2 className="capitalize">response</h2>
+              <div className="mt-2.5 flex gap-2">
+                <h6 className="capitalize text-[14px]">status code:</h6>
+                {statusCode !== null && (
+                  <Badge className={statusBadgeClass}>{statusCode}</Badge>
+                )}
+              </div>
             </div>
-              <ResponseBody />
+            <ResponseBody />
           </div>
         </>
       ) : (
