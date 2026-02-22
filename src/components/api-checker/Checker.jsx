@@ -4,9 +4,10 @@ import Header from "./header/Header";
 import Send from "./send/Send";
 import useFetch from "@/app/hook/useFetch";
 import Dependency from "./tabs/Dependency";
+import Response from "./response/Response";
 
 export default function Checker() {
-  const { sendRequest, data, loading} = useFetch();
+  const { sendRequest, data, loading , success} = useFetch();
   const handleRequest = ({ url, method }) => {
     sendRequest(url, method);
   };
@@ -18,6 +19,7 @@ export default function Checker() {
       <Header />
       <Send onSend={handleRequest} loading={loading} />
       <Dependency />
+      <Response loading={loading} data={data} success={success}/>
     </div>
   );
 }
