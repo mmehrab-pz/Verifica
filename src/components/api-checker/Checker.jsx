@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import Header from "./header/Header";
 import Send from "./send/Send";
 import useFetch from "@/app/hook/useFetch";
-import Dependency from "./tabs/Dependency";
+import Dependency from "./dependency/Dependency";
 import Response from "./response/Response";
 import useApiStore from "@/app/store/useApiStore";
 

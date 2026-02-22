@@ -52,55 +52,95 @@
 import { create } from "zustand";
 import { toast } from "sonner";
 
-const useApiStore = create((set) => ({
+const useApiStore = create((set, get) => ({
   data: null,
   loading: false,
   success: null,
   url: "",
   method: "",
   statusCode: null,
-  responseTime: null, // 🕒 اضافه کردن زمان پاسخ
+  responseTime: null,
+  fields: [],
 
-  sendRequest: async (url, method) => {
+  setFields: (fields) => set({ fields }),
+
+  addField: () =>
+    set((state) => ({
+      fields: [...state.fields, { id: Date.now(), key: "", value: "" }],
+    })),
+
+  removeField: (id) =>
+    set((state) => ({
+      fields: state.fields.filter((f) => f.id !== id),
+    })),
+
+  updateField: (id, key, value) =>
+    set((state) => ({
+      fields: state.fields.map((f) =>
+        f.id === id ? { ...f, key, value } : f
+      ),
+    })),
+
+  sendRequest: async (rawUrl, method) => {
     set({ loading: true });
 
     try {
-      const start = performance.now(); // زمان شروع
+      const start = performance.now();
+      const { fields } = get();
 
-      const res = await fetch(url, { method });
-      const json = await res.json();
+      const urlObject = new URL(rawUrl);
 
-      const end = performance.now(); // زمان پایان
+      fields.forEach((field) => {
+        const key = field.key?.trim();
+        const value = field.value ?? "";
+
+        if (!key) return;
+
+        urlObject.searchParams.append(key, value);
+      });
+
+      const finalUrl = urlObject.toString();
+
+      const res = await fetch(finalUrl, { method });
+
+      let json = null;
+      try {
+        json = await res.json();
+      } catch {
+        json = { message: "Response is not JSON" };
+      }
+
+      const end = performance.now();
       const duration = end - start;
 
       set({
         data: json,
         success: res.ok,
-        url,
+        url: finalUrl,
         method,
         statusCode: res.status,
-        responseTime: duration.toFixed(2), // میلی‌ثانیه اعشاری
+        responseTime: duration.toFixed(2),
       });
 
       if (res.ok) {
-        toast.success(`Request succeeded`, {
+        toast.success("Request succeeded", {
           position: "top-center",
         });
       } else {
-        toast.error(json.message || "Request error", {
+        toast.error(json?.message || "Request error", {
           position: "top-center",
         });
       }
     } catch (e) {
       set({
         success: false,
-        url,
+        url: rawUrl,
         method,
         statusCode: null,
         responseTime: null,
       });
 
-      toast.error(e.message || "Request error", {
+      toast.error(e.message || "Invalid URL or request error", {
         position: "top-center",
       });
     } finally {

@@ -21,15 +21,15 @@ export default function ResTabs() {
         <TabsTrigger value="Response">Response</TabsTrigger>
       </TabsList>
       <TabsContent value="Documentation">
-        <Card className={"h-70 p-4"}>
+        <Card className={"min-h-70 p-4"}>
           <ApiDocumentation />
         </Card>
       </TabsContent>
       <TabsContent value="Headers">
-        <Card className={"h-70 p-4"}>234</Card>
+        <Card className={"min-h-70 p-4"}>234</Card>
       </TabsContent>
       <TabsContent value="Response">
-        <Card className={"h-70 p-4"}>
+        <Card className={"min-h-70 p-4"}>
           {url ? (
             <ResponseBody />
           ) : (
