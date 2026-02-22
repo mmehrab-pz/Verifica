@@ -5,9 +5,11 @@ import Send from "./send/Send";
 import useFetch from "@/app/hook/useFetch";
 import Dependency from "./tabs/Dependency";
 import Response from "./response/Response";
+import useApiStore from "@/app/store/useApiStore";
 
 export default function Checker() {
-  const { sendRequest, data, loading , success} = useFetch();
+  // const { sendRequest, data, loading , success} = useFetch();
+  const { data, loading, success, sendRequest } = useApiStore();
   const handleRequest = ({ url, method }) => {
     sendRequest(url, method);
   };
