@@ -1,6 +1,7 @@
 import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
+import ResTabs from "./tabs/ResTabs";
 
 export default function Response({ loading, data, success }) {
   let statusText = "ready";
@@ -29,6 +30,7 @@ export default function Response({ loading, data, success }) {
           {showSpinner && <Spinner data-icon="inline-end" />}
         </Badge>
       </div>
+      <ResTabs />
     </div>
   );
 }

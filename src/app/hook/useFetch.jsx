@@ -23,5 +23,5 @@ export default function useFetch() {
       setLoading(false);
     }
   };
-  return { sendRequest, data, loading, success };
+  return { sendRequest, data, loading, success};
 }
