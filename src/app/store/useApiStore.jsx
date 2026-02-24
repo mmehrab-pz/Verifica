@@ -61,6 +61,7 @@ const useApiStore = create((set, get) => ({
   statusCode: null,
   responseTime: null,
   fields: [],
+  heads: [],
 
   setFields: (fields) => set({ fields }),
 
@@ -76,9 +77,22 @@ const useApiStore = create((set, get) => ({
 
   updateField: (id, key, value) =>
     set((state) => ({
-      fields: state.fields.map((f) =>
-        f.id === id ? { ...f, key, value } : f
-      ),
+      fields: state.fields.map((f) => (f.id === id ? { ...f, key, value } : f)),
+    })),
+
+  addHead: () =>
+    set((state) => ({
+      heads: [...state.heads, { id: Date.now(), key: "", value: "" }],
+    })),
+
+  removeHead: (id) =>
+    set((state) => ({
+      heads: state.heads.filter((h) => h.id !== id),
+    })),
+
+  updateHead: (id, key, value) =>
+    set((state) => ({
+      heads: state.heads.map((h) => (h.id === id ? { ...h, key, value } : h)),
     })),
 
   sendRequest: async (rawUrl, method) => {
@@ -86,22 +100,30 @@ const useApiStore = create((set, get) => ({
 
     try {
       const start = performance.now();
-      const { fields } = get();
+      const { fields, heads } = get();
 
       const urlObject = new URL(rawUrl);
 
       fields.forEach((field) => {
         const key = field.key?.trim();
-        const value = field.value ?? "";
-
         if (!key) return;
+        urlObject.searchParams.append(key, field.value ?? "");
+      });
 
-        urlObject.searchParams.append(key, value);
+      const headersObject = {};
+
+      heads.forEach((head) => {
+        const key = head.key?.trim();
+        if (!key) return;
+        headersObject[key] = head.value ?? "";
       });
 
       const finalUrl = urlObject.toString();
 
-      const res = await fetch(finalUrl, { method });
+      const res = await fetch(finalUrl, {
+        method,
+        headers: headersObject,
+      });
 
       let json = null;
       try {

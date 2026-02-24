@@ -3,32 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { IconCircleDashedPlus } from "@tabler/icons-react";
 import HeaderField from "./HeaderField";
+import useApiStore from "@/app/store/useApiStore";
 
 export default function Headers() {
-  const [heads, setHead] = useState(() => {
-    const stored = localStorage.getItem("heads");
-    return stored ? JSON.parse(stored) : [];
-  });
-
-  useEffect(() => {
-    localStorage.setItem("heads", JSON.stringify(heads));
-  }, [heads]);
-
-  function addHead() {
-    setHead((prev) => [...prev, { id: Date.now(), key:'', value:'' }]);
-  }
-
-  function removeHead(id) {
-    setHead((prev) => prev.filter((f) => f.id !== id));
-  }
-
-  function updateHead(id, key, value) {
-    setHead((prev) =>
-      prev.map((f) =>
-        f.id === id ? { ...f, key, value } : f
-      )
-    );
-  }
+  const heads = useApiStore((s) => s.heads);
+  const addHead = useApiStore((s) => s.addHead);
+  const removeHead = useApiStore((s) => s.removeHead);
+  const updateHead = useApiStore((s) => s.updateHead);
   return (
     <>
       <div className="flex flex-col">

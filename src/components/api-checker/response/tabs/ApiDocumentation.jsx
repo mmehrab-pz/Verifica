@@ -132,7 +132,7 @@ import ResponseBody from "./ResponseBody";
 
 export default function ApiDocumentation() {
   const { url, method, statusCode, responseTime } = useApiStore();
-
+  const heads = useApiStore((s) => s.heads);
   const queryParams = useMemo(() => {
     if (!url) return [];
 
@@ -242,10 +242,28 @@ export default function ApiDocumentation() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell>Authorization</TableCell>
-                  <TableCell>Bearer your_token_here</TableCell>
-                </TableRow>
+                {heads.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={2}
+                      className="text-center text-muted-foreground"
+                    >
+                      No headers
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  heads.map(
+                    (head) =>
+                      head.key && (
+                        <TableRow key={head.id}>
+                          <TableCell>{head.key}</TableCell>
+                          <TableCell className="break-all">
+                            {head.value}
+                          </TableCell>
+                        </TableRow>
+                      ),
+                  )
+                )}
               </TableBody>
             </Table>
           </div>
