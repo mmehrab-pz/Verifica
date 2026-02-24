@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React from "react";
 import Parameters from "./parameters/Parameters";
 import Headers from "./Headers/Headers.";
+import Body from "./body/Body";
 
 export default function Dependency() {
   return (
@@ -30,17 +31,8 @@ export default function Dependency() {
         </Card>
       </TabsContent>
       <TabsContent value="Body">
-        <Card>
-          <CardHeader>
-            <CardTitle>Reports</CardTitle>
-            <CardDescription>
-              Generate and download your detailed reports. Export data in
-              multiple formats for analysis.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="text-muted-foreground text-sm">
-            You have 5 reports ready and available to export.
-          </CardContent>
+        <Card className={'p-4 gap-0'}>
+          <Body />
         </Card>
       </TabsContent>
     </Tabs>

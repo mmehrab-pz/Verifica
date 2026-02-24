@@ -12,11 +12,6 @@ export default function Parameters() {
   const removeField = useApiStore((s) => s.removeField);
   const updateField = useApiStore((s) => s.updateField);
 
-  useEffect(() => {
-
-    console.log(fields);
-    
-  }, [fields]);
   return (
     <>
       <div className="flex flex-col">
