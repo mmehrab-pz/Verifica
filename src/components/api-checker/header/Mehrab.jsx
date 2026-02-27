@@ -54,27 +54,27 @@ export default function Mehrab() {
             </p>
             <div className="flex gap-2.5 mt-5">
               <Button asChild>
-                <Link href="/login" target="_blank">
+                <Link href="https://pourzakaria.com/" target="_blank">
                   <IconBrandLinkedin size={48}/>
                 </Link>
               </Button>
               <Button asChild>
-                <Link href="/login" target="_blank">
+                <Link href="https://www.instagram.com/mehrab.poorzakaria_web/" target="_blank">
                   <IconBrandInstagram size={48}/>
                 </Link>
               </Button>
               <Button asChild>
-                <Link href="/login" target="_blank">
+                <Link href="https://github.com/mmehrab-pz" target="_blank">
                   <IconBrandGithub size={48}/>
                 </Link>
               </Button>
               <Button asChild>
-                <Link href="/login" target="_blank">
+                <Link href="https://mail.google.com/mail/u/0/?fs=1&to=mmehrab.pk@gmail.com&tf=cm" target="_blank">
                   <IconBrandGmail size={48}/>
                 </Link>
               </Button>
               <Button asChild>
-                <Link href="/login" target="_blank">
+                <Link href="https://pourzakaria.com/" target="_blank">
                   <IconWorldWww size={48}/>
                 </Link>
               </Button>
