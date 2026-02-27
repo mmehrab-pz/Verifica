@@ -54,7 +54,7 @@ Syntax highlighting ensures JSON requests and responses are easy to read, while 
 ## 🌐 Live Demo
 
 Check out the live version of this Generator:  
-👉 [View Demo](verifica-eight.vercel.app)
+👉 [View Demo](https://verifica-eight.vercel.app/)
 
 ## 🔗 Connect with Me
 
