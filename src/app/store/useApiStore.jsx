@@ -76,7 +76,7 @@ const useApiStore = create(
         const time = now.toLocaleTimeString(); // فقط زمان، مثلا "15:50:12"
 
         if (!url || !method) {
-          toast.error("URL and Method must be set before saving request", {
+          toast.error("URL and Method must be set and send before saving request", {
             position: "top-center",
           });
           return;
