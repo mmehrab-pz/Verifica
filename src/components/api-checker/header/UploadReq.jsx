@@ -29,7 +29,7 @@ export function UploadReq() {
   const deleteRequest = useApiStore((state) => state.deleteRequest);
   const clearRequests = useApiStore((state) => state.clearRequests);
 
-  const [open, setOpen] = useState(false); // کنترل باز/بسته بودن دیالوگ
+  const [open, setOpen] = useState(false);
 
   const getBadgeClass = (method) => {
     switch (method) {
@@ -48,12 +48,12 @@ export function UploadReq() {
 
   const handleUpload = (id) => {
     loadRequest(id);
-    setOpen(false); // 👈 دیالوگ بسته می‌شود بعد از upload
+    setOpen(false);
   };
 
   const handleDeleteAll = () => {
     clearRequests();
-    setOpen(false); // 👈 دیالوگ بسته می‌شود بعد از پاک کردن همه
+    setOpen(false);
   };
 
   return (

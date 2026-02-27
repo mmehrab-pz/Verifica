@@ -20,7 +20,7 @@ import { toast } from "sonner";
 
 
 export function SaveReq() {
-  const [open, setOpen] = useState(false); // کنترل باز/بسته بودن دیالوگ
+  const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -31,14 +31,14 @@ export function SaveReq() {
       toast.error("Please enter a name for your request!", {
             position: "top-center",
           });
-      return false; // فرم معتبر نیست
+      return false;
     }
 
     saveRequest(name, description);
 
     setName("");
     setDescription("");
-    setOpen(false); // 👈 بعد از موفقیت، دیالوگ بسته می‌شود
+    setOpen(false);
   };
 
   return (

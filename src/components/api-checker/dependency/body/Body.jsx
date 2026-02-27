@@ -10,12 +10,12 @@ import useApiStore from "@/app/store/useApiStore";
 export default function Body() {
   const [isOn, setIsOn] = useState(false);
 
-  const resetBodies = useApiStore((s) => s.setBodys); // Reset form mode
+  const resetBodies = useApiStore((s) => s.setBodys); 
   const resetRaw = useApiStore((s) => s.setBodyRaw);
 
     const handleReset = () => {
-    resetBodies([]);   // پاک کردن فرم mode
-    resetRaw("");     // پاک کردن raw mode
+    resetBodies([]); 
+    resetRaw("");  
   };
   return (
     <>

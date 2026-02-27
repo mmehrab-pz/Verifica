@@ -72,8 +72,8 @@ const useApiStore = create(
           get();
 
         const now = new Date();
-        const date = now.toLocaleDateString(); // فقط تاریخ، مثلا "27/2/2026"
-        const time = now.toLocaleTimeString(); // فقط زمان، مثلا "15:50:12"
+        const date = now.toLocaleDateString(); 
+        const time = now.toLocaleTimeString(); 
 
         if (!url || !method) {
           toast.error("URL and Method must be set and send before saving request", {
@@ -138,13 +138,13 @@ const useApiStore = create(
           const { fields, heads, bodys, bodyRaw } = get();
 
           // --- Query Params ---
-          const urlObject = new URL(rawUrl.split("?")[0]); // 👈 فقط base URL بدون query
+          const urlObject = new URL(rawUrl.split("?")[0]); 
           fields.forEach((field) => {
             const key = field.key?.trim();
             if (!key) return;
             urlObject.searchParams.append(key, field.value ?? "");
           });
-          const finalUrl = urlObject.toString(); // 👈 این URL دیگه تکراری نمیشه
+          const finalUrl = urlObject.toString(); 
 
           // --- Headers ---
           const headersObject = {};
@@ -220,8 +220,8 @@ const useApiStore = create(
       },
     }),
     {
-      name: "api-store", // کلید در localStorage
-      partialize: (state) => ({ savedRequests: state.savedRequests }), // فقط savedRequests persist میشه
+      name: "api-store",
+      partialize: (state) => ({ savedRequests: state.savedRequests }),
     },
   ),
 );

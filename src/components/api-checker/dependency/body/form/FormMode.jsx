@@ -6,8 +6,8 @@ import useApiStore from "@/app/store/useApiStore";
 import BodyField from "./BodyField";
 
 export default function FormMode() {
-const bodys = useApiStore((s) => s.bodys);       // درستش همین
-const addBody = useApiStore((s) => s.addBody);    // درستش این
+const bodys = useApiStore((s) => s.bodys);    
+const addBody = useApiStore((s) => s.addBody);  
 const removeBody = useApiStore((s) => s.removeBody);
 const updateBody = useApiStore((s) => s.updateBody);
   return (
