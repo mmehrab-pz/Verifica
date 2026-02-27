@@ -68,7 +68,8 @@ const useApiStore = create(
 
       // --- Save Request ---
       saveRequest: (name, description) => {
-        const { url, method, bodys, fields, heads, savedRequests } = get();
+        const { url, method, bodys, fields, data, responseTime, statusCode, heads, savedRequests } =
+          get();
 
         const now = new Date();
         const date = now.toLocaleDateString(); // فقط تاریخ، مثلا "27/2/2026"
@@ -92,6 +93,9 @@ const useApiStore = create(
           heads,
           savedDate: date,
           savedTime: time,
+          data,
+          responseTime,
+          statusCode,
         };
 
         set({ savedRequests: [...savedRequests, newRequest] });
@@ -110,6 +114,9 @@ const useApiStore = create(
           bodys: req.bodys,
           fields: req.fields,
           heads: req.heads,
+          data: req.data,
+          responseTime: req.responseTime,
+          statusCode: req.statusCode,
         });
       },
       // --- Delete a single request ---
@@ -124,91 +131,93 @@ const useApiStore = create(
       },
 
       // --- Send Request ---
-sendRequest: async (rawUrl, method) => {
-  set({ loading: true });
-  try {
-    const start = performance.now();
-    const { fields, heads, bodys, bodyRaw } = get();
+      sendRequest: async (rawUrl, method) => {
+        set({ loading: true });
+        try {
+          const start = performance.now();
+          const { fields, heads, bodys, bodyRaw } = get();
 
-    // --- Query Params ---
-    const urlObject = new URL(rawUrl.split("?")[0]); // 👈 فقط base URL بدون query
-    fields.forEach((field) => {
-      const key = field.key?.trim();
-      if (!key) return;
-      urlObject.searchParams.append(key, field.value ?? "");
-    });
-    const finalUrl = urlObject.toString(); // 👈 این URL دیگه تکراری نمیشه
+          // --- Query Params ---
+          const urlObject = new URL(rawUrl.split("?")[0]); // 👈 فقط base URL بدون query
+          fields.forEach((field) => {
+            const key = field.key?.trim();
+            if (!key) return;
+            urlObject.searchParams.append(key, field.value ?? "");
+          });
+          const finalUrl = urlObject.toString(); // 👈 این URL دیگه تکراری نمیشه
 
-    // --- Headers ---
-    const headersObject = {};
-    heads.forEach((head) => {
-      const key = head.key?.trim();
-      if (!key) return;
-      headersObject[key] = head.value ?? "";
-    });
+          // --- Headers ---
+          const headersObject = {};
+          heads.forEach((head) => {
+            const key = head.key?.trim();
+            if (!key) return;
+            headersObject[key] = head.value ?? "";
+          });
 
-    // --- Body ---
-    let bodyContent = null;
-    if (["POST", "PUT", "PATCH"].includes(method.toUpperCase())) {
-      if (bodyRaw) {
-        bodyContent = bodyRaw;
-      } else if (bodys.length > 0) {
-        const bodyObj = {};
-        bodys.forEach((b) => {
-          if (b.key?.trim()) bodyObj[b.key] = b.value;
-        });
-        bodyContent = JSON.stringify(bodyObj);
-      }
-      if (bodyContent && !headersObject["Content-Type"]) {
-        headersObject["Content-Type"] = "application/json";
-      }
-    }
+          // --- Body ---
+          let bodyContent = null;
+          if (["POST", "PUT", "PATCH"].includes(method.toUpperCase())) {
+            if (bodyRaw) {
+              bodyContent = bodyRaw;
+            } else if (bodys.length > 0) {
+              const bodyObj = {};
+              bodys.forEach((b) => {
+                if (b.key?.trim()) bodyObj[b.key] = b.value;
+              });
+              bodyContent = JSON.stringify(bodyObj);
+            }
+            if (bodyContent && !headersObject["Content-Type"]) {
+              headersObject["Content-Type"] = "application/json";
+            }
+          }
 
-    // --- Fetch ---
-    const res = await fetch(finalUrl, {
-      method,
-      headers: headersObject,
-      body: bodyContent,
-    });
+          // --- Fetch ---
+          const res = await fetch(finalUrl, {
+            method,
+            headers: headersObject,
+            body: bodyContent,
+          });
 
-    let json = null;
-    try {
-      json = await res.json();
-    } catch {
-      json = { message: "Response is not JSON" };
-    }
+          let json = null;
+          try {
+            json = await res.json();
+          } catch {
+            json = { message: "Response is not JSON" };
+          }
 
-    const end = performance.now();
-    const duration = end - start;
+          const end = performance.now();
+          const duration = end - start;
 
-    set({
-      data: json,
-      success: res.ok,
-      url: finalUrl,
-      method,
-      statusCode: res.status,
-      responseTime: duration.toFixed(2),
-    });
+          set({
+            data: json,
+            success: res.ok,
+            url: finalUrl,
+            method,
+            statusCode: res.status,
+            responseTime: duration.toFixed(2),
+          });
 
-    if (res.ok)
-      toast.success("Request succeeded", { position: "top-center" });
-    else
-      toast.error(json?.message || "Request error", { position: "top-center" });
-  } catch (e) {
-    set({
-      success: false,
-      url: rawUrl,
-      method,
-      statusCode: null,
-      responseTime: null,
-    });
-    toast.error(e.message || "Invalid URL or request error", {
-      position: "top-center",
-    });
-  } finally {
-    set({ loading: false });
-  }
-},
+          if (res.ok)
+            toast.success("Request succeeded", { position: "top-center" });
+          else
+            toast.error(json?.message || "Request error", {
+              position: "top-center",
+            });
+        } catch (e) {
+          set({
+            success: false,
+            url: rawUrl,
+            method,
+            statusCode: null,
+            responseTime: null,
+          });
+          toast.error(e.message || "Invalid URL or request error", {
+            position: "top-center",
+          });
+        } finally {
+          set({ loading: false });
+        }
+      },
     }),
     {
       name: "api-store", // کلید در localStorage
