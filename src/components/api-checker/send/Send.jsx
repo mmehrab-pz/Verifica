@@ -1,7 +1,9 @@
+
+
 // "use client";
 
 // import React, { useState } from "react";
-// import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+// import { Field } from "@/components/ui/field";
 // import { Input } from "@/components/ui/input";
 // import {
 //   Select,
@@ -14,29 +16,45 @@
 // import { Button } from "@/components/ui/button";
 // import { IconSend2 } from "@tabler/icons-react";
 // import { Spinner } from "@/components/ui/spinner";
-// import { toast } from "sonner"
+// import { toast } from "sonner"; // shadcn compatible toast
+// import useApiStore from "@/app/store/useApiStore";
 
 // export default function Send({ onSend, loading }) {
-//   const [url, setUrl] = useState("");
-//   const [method, setMethod] = useState("");
-//   const handleSned = () => {
-//     if (!url.trim()) return;
+//   // const [url, setUrl] = useState("");
+//   // const [method, setMethod] = useState("");
+//   const url = useApiStore((state) => state.url);
+//   const method = useApiStore((state) => state.method);
+//   const setUrl = useApiStore((state) => state.setUrl);
+//   const setMethod = useApiStore((state) => state.setMethod);
+
+//   const handleSend = () => {
+//     if (!url.trim()) {
+//       toast.error("URL cannot be empty!");
+//       return;
+//     }
+//     if (!method) {
+//       toast.error("Please select a method!");
+//       return;
+//     }
+
 //     onSend({
 //       url,
 //       method,
 //     });
 //   };
+
 //   return (
 //     <div className="w-full border-b border-border px-8 py-4">
 //       <Field className="flex flex-row">
 //         <Input
+//         value={url}
 //           className="w-[50%]!"
 //           id="input-url"
 //           type="text"
 //           placeholder="https://jsonplaceholder.typicode.com/posts"
 //           onChange={(e) => setUrl(e.target.value)}
 //         />
-//         <Select onValueChange={setMethod}>
+//         <Select value={method} onValueChange={setMethod}>
 //           <SelectTrigger className="w-[30%]!">
 //             <SelectValue placeholder="Method" />
 //           </SelectTrigger>
@@ -55,7 +73,7 @@
 //             Please wait
 //           </Button>
 //         ) : (
-//           <Button variant="outline" className="w-[20%]!" onClick={handleSned}>
+//           <Button variant="outline" className="w-[20%]!" onClick={handleSend}>
 //             Send <IconSend2 />
 //           </Button>
 //         )}
@@ -63,10 +81,9 @@
 //     </div>
 //   );
 // }
-
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
@@ -80,17 +97,27 @@ import {
 import { Button } from "@/components/ui/button";
 import { IconSend2 } from "@tabler/icons-react";
 import { Spinner } from "@/components/ui/spinner";
-import { toast } from "sonner"; // shadcn compatible toast
+import { toast } from "sonner";
+import useApiStore from "@/app/store/useApiStore";
 
 export default function Send({ onSend, loading }) {
-  const [url, setUrl] = useState("");
-  const [method, setMethod] = useState("");
+  const [url, setUrlLocal] = useState("");
+  const [method, setMethodLocal] = useState("");
+
+  const storeUrl = useApiStore((state) => state.url);
+  const storeMethod = useApiStore((state) => state.method);
+
+  useEffect(() => {
+    if (storeUrl) setUrlLocal(storeUrl);
+    if (storeMethod) setMethodLocal(storeMethod);
+  }, [storeUrl, storeMethod]);
 
   const handleSend = () => {
     if (!url.trim()) {
       toast.error("URL cannot be empty!");
       return;
     }
+
     if (!method) {
       toast.error("Please select a method!");
       return;
@@ -106,13 +133,15 @@ export default function Send({ onSend, loading }) {
     <div className="w-full border-b border-border px-8 py-4">
       <Field className="flex flex-row">
         <Input
+          value={url}
           className="w-[50%]!"
           id="input-url"
           type="text"
           placeholder="https://jsonplaceholder.typicode.com/posts"
-          onChange={(e) => setUrl(e.target.value)}
+          onChange={(e) => setUrlLocal(e.target.value)}
         />
-        <Select onValueChange={setMethod}>
+
+        <Select value={method} onValueChange={setMethodLocal}>
           <SelectTrigger className="w-[30%]!">
             <SelectValue placeholder="Method" />
           </SelectTrigger>
@@ -125,6 +154,7 @@ export default function Send({ onSend, loading }) {
             </SelectGroup>
           </SelectContent>
         </Select>
+
         {loading ? (
           <Button variant="outline" disabled className="w-[20%]!">
             <Spinner data-icon="inline-start" />
