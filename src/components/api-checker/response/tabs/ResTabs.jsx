@@ -26,7 +26,7 @@ export default function ResTabs() {
         <div className="flex items-center gap-2.5">
           <TabsList>
             <TabsTrigger value="Documentation">Documentation</TabsTrigger>
-            <TabsTrigger value="Headers">Headers</TabsTrigger>
+            {/* <TabsTrigger value="Headers">Headers</TabsTrigger> */}
             <TabsTrigger value="Response">Response</TabsTrigger>
           </TabsList>
           {url ? (
@@ -44,9 +44,9 @@ export default function ResTabs() {
             <ApiDocumentation />
           </Card>
         </TabsContent>
-        <TabsContent value="Headers">
+        {/* <TabsContent value="Headers">
           <Card className={"min-h-70 p-4"}>234</Card>
-        </TabsContent>
+        </TabsContent> */}
         <TabsContent value="Response">
           <Card className={"min-h-70 p-4"}>
             {url ? (
