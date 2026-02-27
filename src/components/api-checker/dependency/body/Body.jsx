@@ -29,7 +29,7 @@ export default function Body() {
             }}
           />
           <Label htmlFor="airplane-mode" className={"capitalize"}>
-            form mode
+            raw mode
           </Label>
         </div>
         <Button
@@ -43,7 +43,7 @@ export default function Body() {
           <IconRotateClockwise />
         </Button>
       </div>
-      <div className="mt-2.5">{isOn ? <FormMode /> : <RawMode />}</div>
+      <div className="mt-2.5">{isOn ? <RawMode /> : <FormMode />}</div>
     </>
   );
 }
